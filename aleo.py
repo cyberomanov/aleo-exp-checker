@@ -17,6 +17,7 @@ ADDRESSES = {
     "num2-serv2": "aleo...address2",
 }
 
+
 def send_tg_msg(value: str):
     try:
         requests.post(
@@ -38,7 +39,7 @@ def get_match(soup: str):
 
 
 def get_row_items(row: bs4.element.ResultSet):
-    return get_match(soup=row[0].get_text()), get_match(soup=row[0].get_text())
+    return get_match(soup=row[0].get_text()), get_match(soup=row[1].get_text())
 
 
 def get_address_result(page: requests.Response):
@@ -68,16 +69,14 @@ def work():
                       f'blocks: {blocks}, ' \
                       f'solutions: {solutions}.'
 
-            if coinbase > COINBASE_MIN and incentives > INCENTIVES_MIN and solutions > SOLUTIONS_MIN:
-                print(message + 'DONE!')
+            if coinbase >= COINBASE_MIN and incentives >= INCENTIVES_MIN and solutions >= SOLUTIONS_MIN:
+                print(message + ' DONE!')
                 send_tg_msg(value=message)
             else:
                 print(message)
-
     time.sleep(SLEEP_TIME_SEC)
 
 
 if __name__ == '__main__':
     while True:
         work()
-

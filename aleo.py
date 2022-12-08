@@ -18,13 +18,13 @@ ADDRESSES = {
 }
 
 
-def send_tg_msg(message: str):
+def send_tg_msg(value: str):
     try:
         requests.post(
             f"https://api.telegram.org/bot{API_TOKEN}/sendMessage",
             json={
                 'chat_id': CHAT_ID,
-                'text': message
+                'text': value
             }
         )
     except Exception as e:
@@ -57,11 +57,14 @@ while True:
                 coinbase = float(re.match(r'\d+', credit_result[1].get_text())[0])
 
             message = f'[{dt}] [{address[0]}]-[{address[1][-4:]}] | ' \
-                      f'coinbase: {coinbase}, ' \
+                      f'incentives: {round(incentives, 2)}, ' \
+                      f'coinbase: {round(coinbase, 2)}, ' \
                       f'blocks: {blocks}, ' \
                       f'solutions: {solutions}.'
-            print(message)
             if coinbase > COINBASE_MIN and incentives > INCENTIVES_MIN and solutions > SOLUTIONS_MIN:
-                send_tg_msg(message)
+                print(message + 'DONE!')
+                send_tg_msg(value=message)
+            else:
+                print(message)
 
     time.sleep(SLEEP_TIME_SEC)

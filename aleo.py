@@ -59,10 +59,10 @@ def work():
         dt = datetime.now().strftime("%H:%M:%S")
         page = session.get(f"https://www.aleo.network/leaderboard/{address[1]}")
         if "No matching results" in page.text:
-            print(f'[{dt}] [{address[0]}] - [{address[1][-4:]}] | nothing...')
+            print(f'[{dt}] | [{address[0]}] - [{address[1][-4:]}] | nothing...')
         else:
             blocks, solutions, incentives, coinbase = get_address_result(page=page)
-            message = f'[{dt}] [{address[0]}]-[{address[1][-4:]}] | ' \
+            message = f'[{dt}] | [{address[0]}] - [{address[1][-4:]}] | ' \
                       f'incentives: {round(incentives, 2)}, ' \
                       f'coinbase: {round(coinbase, 2)}, ' \
                       f'blocks: {blocks}, ' \

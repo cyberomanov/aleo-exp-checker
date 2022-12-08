@@ -29,12 +29,11 @@ def send_tg_msg(message: str):
 
 
 while True:
+    session = requests.session()
     for address in ADDRESSES.items():
         dt = datetime.now().strftime("%H:%M:%S")
-        session = requests.session()
         page = session.get(f"https://www.aleo.network/leaderboard/{address[1]}")
         if "No matching results" in page.text:
-            dt = datetime.now().strftime("%H:%M:%S")
             print(f'[{dt}] [{address[0]}] - [{address[1][-4:]}] | nothing...')
         else:
             soup = BeautifulSoup(page.content, 'html.parser')
